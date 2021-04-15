@@ -1693,6 +1693,9 @@ class LogoManager {
 			case "PoliticalAnalyst":
 			logoSlot.style.backgroundImage = 'url("https://www.yapms.com/app/res/logos/pa.jpg")';
 			break;
+			case "CommanderVideo":
+			logoSlot.style.backgroundImage = 'url("https://yt3.ggpht.com/ytc/AAUvwngdjF6yfRaC-PiVvALYVzKMbYQi2rcHKHWuRSot_A=s88-c-k-c0x00ffffff-no-rj")';
+			break;
 		}
 	
 		if(LogoManager.currentLogo !== name) {

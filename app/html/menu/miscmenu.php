@@ -48,5 +48,9 @@
 	<i class="fas fa-desktop"></i>
 	<div class="selectmenu-button-text">Political Analyst</div>
 </a>
+<a class="selectmenu-button" onclick="LogoManager.toggleLogo('CommanderVideo')">
+	<i class="fas fa-desktop"></i>
+	<div class="selectmenu-button-text">Commmander Video</div>
+</a>
 </div>
 </div>
