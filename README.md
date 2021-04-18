@@ -19,7 +19,7 @@ git init
 ```
 **4.** Add the remote repository
 ```
-git remote add origin https://github.com/yapms/YAPms
+git remote add origin https://github.com/dxdeity/YAPms (or https://github.com/yapms/YAPms if you want the original)
 ```
 **5.** Pull the code
 ```
