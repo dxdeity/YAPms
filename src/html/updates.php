@@ -16,6 +16,7 @@
 		<a class="link" href="./app/?t=USA_2024_presidential">2024 Presidential</a>
 		<a class="link" href="./app/?t=USA_2022_senate">2022 Senate</a>
 		<a class="link" href="./app/?t=USA_2022_governors">2022 Governors</a>
+		<a class="link" href="./app/?t=USA_2021_governors">2021 Governors</a>
 		</div>
 	</div>
 	<div class="info-box">

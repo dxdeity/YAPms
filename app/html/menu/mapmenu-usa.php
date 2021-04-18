@@ -33,6 +33,13 @@
 	<div class="selectmenu-button-text">Governors</div>
 </a>
 <a class="selectmenu-split">
+	<div class="selectmenu-split-text">National 2021</div>
+</a>
+<a class="selectmenu-button" href="./?t=USA_2021_governors">
+	<i class="fas fa-square"></i>
+	<div class="selectmenu-button-text">Governors</div>
+</a>
+<a class="selectmenu-split">
 	<div class="selectmenu-split-text">National 2020</div>
 </a>
 <a class="selectmenu-button" href="./?t=USA_2020_presidential">
@@ -119,6 +126,9 @@
 </a>
 <a class="selectmenu-button" href="./?t=USA_split_maine">
 	<div class="selectmenu-button-text">Split Maine</div>
+</a>
+<a class="selectmenu-button" href="./?t=USA_2019_governors">
+	<div class="selectmenu-button-text">2019 Governors</div>
 </a>
 </div>
 </div>

@@ -2131,9 +2131,17 @@ class MapLoader {
 				PresetLoader.loadPreset('classic');
 				MapLoader.loadMap("./res/usa/governors/usa_gubernatorial.svg", 16, 0.75, "1", "gubernatorial", "2022");
 				break;
+			case "USA_2021_governors":
+				PresetLoader.loadPreset('classic');
+				MapLoader.loadMap("./res/usa/governors/usa_gubernatorial.svg", 16, 0.75, "1", "gubernatorial", "2021");
+				break;
 			case "USA_2020_governors":
 				PresetLoader.loadPreset('classic');
 				MapLoader.loadMap("./res/usa/governors/usa_gubernatorial.svg", 16, 0.75, "1", "gubernatorial", "2020");
+				break;
+			case "USA_2019_governors":
+				PresetLoader.loadPreset('classic');
+				MapLoader.loadMap("./res/usa/governors/usa_gubernatorial.svg", 16, 0.75, "1", "gubernatorial", "2019");
 				break;
 			case "USA_2020_democratic_primary":
 				PresetLoader.loadPreset('democratic primary');
