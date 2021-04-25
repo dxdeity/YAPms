@@ -312,6 +312,21 @@
       <inkscape:tagref
          xlink:href="#NE-D3-text"
          id="tagref4320" />
+      <inkscape:tagref
+         xlink:href="#AS-text"
+         id="tagref4322" />
+      <inkscape:tagref
+         xlink:href="#GU-text"
+         id="tagref4324" />
+      <inkscape:tagref
+         xlink:href="#MP-text"
+         id="tagref4326" />
+      <inkscape:tagref
+         xlink:href="#PR-text"
+         id="tagref4328" />
+      <inkscape:tagref
+         xlink:href="#VI-text"
+         id="tagref4330" />
     </inkscape:tag>
     <style
        type="text/css"
@@ -691,6 +706,56 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
        inkscape:label="#NE" />
+    <rect
+       style="opacity:1;fill:#fffff3;fill-opacity:1;"
+       id="AS"
+       width="53"
+       height="20"
+       x="-50"
+       y="140"
+       inkscape:label="AS"
+       ry="3"
+       rx="3" />
+    <rect
+       style="opacity:1;fill:#fffff3;fill-opacity:1;"
+       id="GU"
+       width="53"
+       height="20"
+       x="-50"
+       y="140"
+       inkscape:label="GU"
+       ry="3"
+       rx="3" />
+    <rect
+       style="opacity:1;fill:#fffff3;fill-opacity:1;"
+       id="MP"
+       width="53"
+       height="20"
+       x="-50"
+       y="140"
+       inkscape:label="MP"
+       ry="3"
+       rx="3" />
+    <rect
+       style="opacity:1;fill:#fffff3;fill-opacity:1;"
+       id="PR"
+       width="53"
+       height="20"
+       x="-50"
+       y="140"
+       inkscape:label="PR"
+       ry="3"
+       rx="3" />
+    <rect
+       style="opacity:1;fill:#fffff3;fill-opacity:1;"
+       id="VI"
+       width="53"
+       height="20"
+       x="-50"
+       y="140"
+       inkscape:label="VI"
+       ry="3"
+       rx="3" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1206,5 +1271,55 @@
          x="260.15173"
          y="568.63818"
          id="tspan8988-2-59-0-0">HI 4</tspan></text>
+    <text
+       xml:space="preserve"
+       x="-24.17375"
+       y="155.5"
+       id="AS-text"
+       inkscape:label="astext"><tspan
+         sodipodi:role="line"
+         x="-24.17375"
+         y="155.5"
+         id="tspan8988-2-59-0-7-1-7-7-5-2">AS 1</tspan></text>
+    <text
+       xml:space="preserve"
+       x="-24.17375"
+       y="180.5"
+       id="GU-text"
+       inkscape:label="gutext"><tspan
+         sodipodi:role="line"
+         x="-24.17375"
+         y="180.5"
+         id="tspan8988-2-59-0-7-1-7-7-5-2-1">GU 1</tspan></text>
+    <text
+       xml:space="preserve"
+       x="-24.17375"
+       y="205.5"
+       id="MP-text"
+       inkscape:label="mptext"><tspan
+         sodipodi:role="line"
+         x="-24.17375"
+         y="205.5"
+         id="tspan8988-2-59-0-7-1-7-7-5-2-7">MP 1</tspan></text>
+    <text
+       xml:space="preserve"
+       x="-24.17375"
+       y="230.5"
+       id="PR-text"
+       inkscape:label="prtext"><tspan
+         sodipodi:role="line"
+         x="-24.17375"
+         y="230.5"
+         id="tspan8988-2-59-0-7-1-7-7-5-2-9">PR 1</tspan></text>
+    <text
+       xml:space="preserve"
+       x="-24.17375"
+       y="255.5"
+       id="VI-text"
+       inkscape:label="vitext"><tspan
+         sodipodi:role="line"
+         x="-24.17375"
+         y="255.5"
+         id="tspan8988-2-59-0-7-1-7-7-5-2-6">VI 1</tspan></text>
   </g>
 </svg>
