@@ -794,7 +794,7 @@ class MapLoader {
 					continue;
 				}
 				let candidate = obj.candidates[candidateName];
-				CandidateManager.addCandidate(candidateName, candidate['solid'], candidate['likely'], candidate['lean'], candidate['tilt']);
+				CandidateManager.addCandidate(candidateName, candidate['safe'], candidate['solid'], candidate['likely'], candidate['lean'], candidate['tilt']);
 			}
 
 			for(let stateName in obj.states) {
@@ -914,11 +914,11 @@ class MapLoader {
 				}
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				'if(KeyboardManager.keyStates[70]){buttonClick(this, {setSolid: true});}');
+				'if(KeyboardManager.keyStates[70]){buttonClick(this, {setSafe: true});}');
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						buttonClick(this, {setSolid: true});
+						buttonClick(this, {setSafe: true});
 					}
 				});
 				buttons.push(htmlElement);
@@ -928,11 +928,11 @@ class MapLoader {
 				}
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				'if(KeyboardManager.keyStates[70]){landClick(this, {setSolid: true});}');
+				'if(KeyboardManager.keyStates[70]){landClick(this, {setSafe: true});}');
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						landClick(this, {setSolid: true});
+						landClick(this, {setSafe: true});
 					}
 				});
 				lands.push(htmlElement);
@@ -944,11 +944,11 @@ class MapLoader {
 				var stateIndex = states.length - 1;
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				"if(KeyboardManager.keyStates[70]){stateClick(this, {setSolid: true});}");
+				"if(KeyboardManager.keyStates[70]){stateClick(this, {setSafe: true});}");
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						stateClick(this, {setSolid: true});
+						stateClick(this, {setSafe: true});
 					}
 				});
 			}

@@ -85,13 +85,13 @@ class PresetLoader {
 
 	// republicans vs democrats
 	static loadPresetClassic() {
+		var democrat = new Candidate('Democratic',
+			['#1c408c', '#222222', '#577ccc', '#8aafff', '#949bb3']);
 		var republican = new Candidate('Republican', 
-			['#bf1d29', '#ff5865', '#ff8b98', '#cf8980']);
-		var democrat = new Candidate('Democrat',
-			['#1c408c', '#577ccc', '#8aafff', '#949bb3']);
+			['#bf1d29', '#111111', '#ff5865', '#ff8b98', '#cf8980']);
 
+		CandidateManager.candidates['Democratic'] = democrat;
 		CandidateManager.candidates['Republican'] = republican;
-		CandidateManager.candidates['Democrat'] = democrat;
 	}
 
 	static loadPresetRepublicanPrimary() {

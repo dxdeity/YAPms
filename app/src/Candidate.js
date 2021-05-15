@@ -7,7 +7,8 @@ class Candidate {
 
 		if(colors[0] === colors[1] &&
 			colors[0] === colors[2] &&
-			colors[0] === colors[3]) {
+			colors[0] === colors[3] &&
+			colors[0] === colors[4]) {
 			this.singleColor = true;
 		} else {
 			this.singleColor = false;
@@ -45,6 +46,7 @@ class CandidateManager {
 
 		var oldname= document.getElementById('candidate-originalName').value;
 		var newname = document.getElementById('candidate-name').value;
+		var safeColor = document.getElementById('candidate-safe').value;
 		var solidColor = document.getElementById('candidate-solid').value;
 		var likelyColor = document.getElementById('candidate-likely').value;
 		var leanColor = document.getElementById('candidate-lean').value;
@@ -59,22 +61,26 @@ class CandidateManager {
 
 		var candidate = CandidateManager.candidates[newname];
 		candidate.name = newname;
-		candidate.colors[0] = solidColor;
-		candidate.colors[1] = likelyColor;
-		candidate.colors[2] = leanColor;
-		candidate.colors[3] = tiltColor;
+		candidate.colors[0] = safeColor;
+		candidate.colors[1] = solidColor;
+		candidate.colors[2] = likelyColor;
+		candidate.colors[3] = leanColor;
+		candidate.colors[4] = tiltColor;
 		
-		if(solidColor === likelyColor &&
-			solidColor === leanColor &&
-			solidColor === tiltColor) {
+		if(safeColor === solidColor &&
+			safeColor === likelyColor &&
+			safeColor === leanColor &&
+			safeColor === tiltColor) {
 			candidate.singleColor = true;
 			candidate.probVoteCounts[0] += 
 				candidate.probVoteCounts[1] +
 				candidate.probVoteCounts[2] +
-				candidate.probVoteCounts[3];
+				candidate.probVoteCounts[3] +
+				candidate.probVoteCounts[4];
 			candidate.probVoteCounts[1] = 0;
 			candidate.probVoteCounts[2] = 0;
 			candidate.probVoteCounts[3] = 0;
+			candidate.probVoteCounts[4] = 0;
 		} else {
 			candidate.singleColor = false;
 		}
@@ -98,7 +104,7 @@ class CandidateManager {
 		ChartManager.updateChart();
 	}
 
-	static addCandidate(name, solid, likely, leaning, tilting) {
+	static addCandidate(name, safe, solid, likely, leaning, tilting) {
 
 		if(name === undefined) {
 			const nameHTML = document.getElementById('name');
@@ -114,10 +120,19 @@ class CandidateManager {
 			return;
 		}
 
+		if(safe === undefined) {
+			const safeHTML = document.getElementById('safe');
+			if(safeHTML !== null) {
+				safe = safeHTML.value;
+			} else {
+				safe = '#000000';
+			}
+		}
+
 		if(solid === undefined) {
 			const solidHTML = document.getElementById('solid');
 			if(solidHTML !== null) {
-				solid = solidHTML.value;
+				solid = likelyHTML.value;
 			} else {
 				solid = '#000000';
 			}
@@ -150,7 +165,7 @@ class CandidateManager {
 			}
 		}
 		
-		const candidate = new Candidate(name, [solid, likely, leaning, tilting]);
+		const candidate = new Candidate(name, [safe, solid, likely, leaning, tilting]);
 		CandidateManager.candidates[name] = candidate;
 
 		verifyPaintIndex();
@@ -161,6 +176,8 @@ class CandidateManager {
 	
 	static saveCustomColors() {
 		const name = document.getElementById('custom-color-name').value;
+		const safe = document.getElementById("safecustom").value;
+		CookieManager.appendCookie(name + "safe", safe);
 		const solid = document.getElementById("solidcustom").value;
 		CookieManager.appendCookie(name + "solid", solid);	
 		const likely = document.getElementById("likelycustom").value;
@@ -173,52 +190,62 @@ class CandidateManager {
 	}
 
 	static setColors(palette) {
+		const safe = document.getElementById('safe');
 		const solid = document.getElementById('solid');
 		const likely = document.getElementById('likely');
 		const leaning =  document.getElementById('leaning');
 		const tilting = document.getElementById('tilting');
 
 		if(palette === 'red') {
-			solid.value = '#bf1d29';
+			safe.value = '#bf1d29';
+			solid.value = '#111111';
 			likely.value = '#ff5865';
 			leaning.value = '#ff8b98';
 			tilting.value ='#cf8980';
 		} else if(palette === 'blue') {
-			solid.value = '#1c408c';
+			safe.value = '#1c408c';
+			solid.value = '#222222';
 			likely.value = '#577ccc';
 			leaning.value = '#8aafff';
 			tilting.value = '#949bb3';
 		} else if(palette === 'green') {
-			solid.value = '#1c8c28';
+			safe.value = '#1c8c28';
+			solid.value = '#000000';
 			likely.value = '#50c85e';
 			leaning.value = '#8aff97';
 			tilting.value = '#7a997e';
 		} else if(palette === 'yellow') {
-			solid.value = '#e6b700';
+			safe.value = '#e6b700';
+			solid.value = '#000000';
 			likely.value = '#e8c84d';
 			leaning.value = '#ffe78a';
 			tilting.value = '#b8a252';
 		} else if(palette === 'blue-light') {
-			solid.value = '#5555ff';
+			safe.value = '#5555ff';
+			solid.value = '#000000';
 			likely.value = '#8080ff';
 			leaning.value = '#aaaaff';
 			tilting.value = '#d5d5ff';
 		} else if(palette === 'red-light') {
-			solid.value = '#ff5555';
+			safe.value = '#ff5555';
+			solid.value = '#000000';
 			likely.value = '#ff8080';
 			leaning.value = '#ffaaaa';
 			tilting.value = '#ffd5d5';
 		} else if(palette === 'blue-dark') {
-			solid.value = '#302e80';
+			safe.value = '#302e80';
+			solid.value = '#000000';
 			likely.value = '#444cc5';
 			leaning.value = '#817ffb';
 			tilting.value = '#cdd3f7';
 		} else if(palette === 'red-dark') {
-			solid.value = '#80302e';
+			safe.value = '#80302e';
+			solid.value = '#000000';
 			likely.value = '#cb4b40';
 			leaning.value = '#fb817f';
 			tilting.value = '#f5c8c4';
 		} else {
+			safe.value = CookieManager.cookies[palette + 'safe'];
 			solid.value = CookieManager.cookies[palette + 'solid'];
 			likely.value = CookieManager.cookies[palette + 'likely'];
 			leaning.value = CookieManager.cookies[palette + 'leaning'];
@@ -229,4 +256,4 @@ class CandidateManager {
 
 CandidateManager.candidates = [];
 CandidateManager.tossupColor = 2;
-CandidateManager.TOSSUP = new Candidate('Tossup', ['#000000', '#ffffff', '#696969', '#000000']);
+CandidateManager.TOSSUP = new Candidate('Tossup', ['#000000', '#696969', '#ffffff', '#696969', '#000000']);

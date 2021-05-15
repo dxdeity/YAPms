@@ -10,6 +10,7 @@
 </div>
 <div class="selectmenu-content">
 <div class="selectmenu-button">Name <input id="candidate-name" type="text" name="name"></div>
+<div class="selectmenu-section">Safe <input id="candidate-safe" type="color"></div>
 <div class="selectmenu-section">Solid <input id="candidate-solid" type="color"></div>
 <div class="selectmenu-section">Likely <input id="candidate-likely" type="color"></div>
 <div class="selectmenu-section">Lean <input id="candidate-lean" type="color"></div>

@@ -1,11 +1,11 @@
-d Democrat #1c408c #577ccc #8aafff #949bb3
-r Republican #bf1d29 #ff5865 #ff8b98 #cf8980
+d Democrat #1c408c #222222 #577ccc #8aafff #949bb3
+r Republican #bf1d29 #111111 #ff5865 #ff8b98 #cf8980
 !
 AL r
 AK r
 AZ r
 AR r
-CA o
+CA o o
 CO d
 CT d
 DE d

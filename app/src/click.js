@@ -28,7 +28,7 @@ function landClick(clickElement) {
 		return;
 	}
 
-	var setSolid = KeyboardManager.quickFill();
+	var setSafe = KeyboardManager.quickFill();
 
 	var id = clickElement.getAttribute('id');
 	var split = id.split('-');
@@ -51,7 +51,7 @@ function landClick(clickElement) {
 	if(mode === 'paint' || mode === 'fill') {
 		Simulator.view(AL);
 		// check if each district has the same candidate and color value
-		if(setSolid) {
+		if(setSafe) {
 			AL.setColor(paintIndex, 0);
 		} else {
 			AL.incrementCandidateColor(paintIndex);

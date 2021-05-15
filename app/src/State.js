@@ -275,7 +275,7 @@ class State {
 	}
 
 	// only incrememnt though the colors of the specified candidate
-	// if the state isn't this candidates color, start at solid
+	// if the state isn't this candidates color, start at safe
 	incrementCandidateColor(candidate, options = {setDelegates: true}) {
 		if(this.disabled) {
 			return;

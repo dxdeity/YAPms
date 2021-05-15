@@ -77,7 +77,7 @@ class ChartManager {
 					}
 
 					if(key !== 'Tossup' && LegendManager.legendLeans) {
-						const amts = ['solid', 'likely', 'lean', 'tilt'];
+						const amts = ['safe', 'solid', 'likely', 'lean', 'tilt'];
 						for(let index = 0; index < amts.length; ++index) {
 							const legendColor = document.createElement('div');
 							legendColor.classList.add('legend-color');
@@ -450,6 +450,8 @@ class ChartManager {
 		ChartManager.chartData.datasets[2].backgroundColor = [];
 		ChartManager.chartData.datasets[3].data = [];
 		ChartManager.chartData.datasets[3].backgroundColor = [];
+		ChartManager.chartData.datasets[4].data = [];
+		ChartManager.chartData.datasets[4].backgroundColor = [];
 		
 		// each label is a candidate
 		for(var key in CandidateManager.candidates) {

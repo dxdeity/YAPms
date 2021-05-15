@@ -17,10 +17,11 @@ class SaveMap {
 			}
 			var candidate = CandidateManager.candidates[key];
 			data['candidates'][candidate.name] = {};
-			data['candidates'][candidate.name]['solid'] = candidate.colors[0];
-			data['candidates'][candidate.name]['likely'] = candidate.colors[1];
-			data['candidates'][candidate.name]['lean'] = candidate.colors[2];
-			data['candidates'][candidate.name]['tilt'] = candidate.colors[3];
+			data['candidates'][candidate.name]['safe'] = candidate.colors[0];
+			data['candidates'][candidate.name]['solid'] = candidate.colors[1];
+			data['candidates'][candidate.name]['likely'] = candidate.colors[2];
+			data['candidates'][candidate.name]['lean'] = candidate.colors[3];
+			data['candidates'][candidate.name]['tilt'] = candidate.colors[4];
 		}
 
 		for(var stateIndex = 0; stateIndex < states.length; ++stateIndex) {
@@ -83,10 +84,11 @@ class SaveMap {
 			}
 			var candidate = CandidateManager.candidates[key];
 			data['candidates'][candidate.name] = {};
-			data['candidates'][candidate.name]['solid'] = candidate.colors[0];
-			data['candidates'][candidate.name]['likely'] = candidate.colors[1];
-			data['candidates'][candidate.name]['lean'] = candidate.colors[2];
-			data['candidates'][candidate.name]['tilt'] = candidate.colors[3];
+			data['candidates'][candidate.name]['safe'] = candidate.colors[0];
+			data['candidates'][candidate.name]['solid'] = candidate.colors[1];
+			data['candidates'][candidate.name]['likely'] = candidate.colors[2];
+			data['candidates'][candidate.name]['lean'] = candidate.colors[3];
+			data['candidates'][candidate.name]['tilt'] = candidate.colors[4];
 		}
 
 		for(var stateIndex = 0; stateIndex < states.length; ++stateIndex) {

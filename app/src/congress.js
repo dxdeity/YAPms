@@ -142,7 +142,7 @@ function setCongressOnHover() {
 					element.innerHTML = districtData.Party;
 
 					if(KeyboardManager.keyStates[70]) {
-						stateClick(this, {setSolid: true});
+						stateClick(this, {setSafe: true});
 					}
 				}
 			})();

@@ -219,10 +219,11 @@ class Account {
 			}
 			var candidate = CandidateManager.candidates[key];
 			data['candidates'][candidate.name] = {};
-			data['candidates'][candidate.name]['solid'] = candidate.colors[0];
-			data['candidates'][candidate.name]['likely'] = candidate.colors[1];
-			data['candidates'][candidate.name]['lean'] = candidate.colors[2];
-			data['candidates'][candidate.name]['tilt'] = candidate.colors[3];
+			data['candidates'][candidate.name]['safe'] = candidate.colors[0];
+			data['candidates'][candidate.name]['solid'] = candidate.colors[1];
+			data['candidates'][candidate.name]['likely'] = candidate.colors[2];
+			data['candidates'][candidate.name]['lean'] = candidate.colors[3];
+			data['candidates'][candidate.name]['tilt'] = candidate.colors[4];
 		}
 
 		for(var stateIndex = 0; stateIndex < states.length; ++stateIndex) {
@@ -631,7 +632,8 @@ class Candidate {
 
 		if(colors[0] === colors[1] &&
 			colors[0] === colors[2] &&
-			colors[0] === colors[3]) {
+			colors[0] === colors[3] &&
+			colors[0] === colors[4]) {
 			this.singleColor = true;
 		} else {
 			this.singleColor = false;
@@ -669,6 +671,7 @@ class CandidateManager {
 
 		var oldname= document.getElementById('candidate-originalName').value;
 		var newname = document.getElementById('candidate-name').value;
+		var safeColor = document.getElementById('candidate-safe').value;
 		var solidColor = document.getElementById('candidate-solid').value;
 		var likelyColor = document.getElementById('candidate-likely').value;
 		var leanColor = document.getElementById('candidate-lean').value;
@@ -683,22 +686,26 @@ class CandidateManager {
 
 		var candidate = CandidateManager.candidates[newname];
 		candidate.name = newname;
-		candidate.colors[0] = solidColor;
-		candidate.colors[1] = likelyColor;
-		candidate.colors[2] = leanColor;
-		candidate.colors[3] = tiltColor;
+		candidate.colors[0] = safeColor;
+		candidate.colors[1] = solidColor;
+		candidate.colors[2] = likelyColor;
+		candidate.colors[3] = leanColor;
+		candidate.colors[4] = tiltColor;
 		
-		if(solidColor === likelyColor &&
-			solidColor === leanColor &&
-			solidColor === tiltColor) {
+		if(safeColor === solidColor &&
+			safeColor === likelyColor &&
+			safeColor === leanColor &&
+			safeColor === tiltColor) {
 			candidate.singleColor = true;
 			candidate.probVoteCounts[0] += 
 				candidate.probVoteCounts[1] +
 				candidate.probVoteCounts[2] +
-				candidate.probVoteCounts[3];
+				candidate.probVoteCounts[3] +
+				candidate.probVoteCounts[4];
 			candidate.probVoteCounts[1] = 0;
 			candidate.probVoteCounts[2] = 0;
 			candidate.probVoteCounts[3] = 0;
+			candidate.probVoteCounts[4] = 0;
 		} else {
 			candidate.singleColor = false;
 		}
@@ -722,7 +729,7 @@ class CandidateManager {
 		ChartManager.updateChart();
 	}
 
-	static addCandidate(name, solid, likely, leaning, tilting) {
+	static addCandidate(name, safe, solid, likely, leaning, tilting) {
 
 		if(name === undefined) {
 			const nameHTML = document.getElementById('name');
@@ -738,10 +745,19 @@ class CandidateManager {
 			return;
 		}
 
+		if(safe === undefined) {
+			const safeHTML = document.getElementById('safe');
+			if(safeHTML !== null) {
+				safe = safeHTML.value;
+			} else {
+				safe = '#000000';
+			}
+		}
+
 		if(solid === undefined) {
 			const solidHTML = document.getElementById('solid');
 			if(solidHTML !== null) {
-				solid = solidHTML.value;
+				solid = likelyHTML.value;
 			} else {
 				solid = '#000000';
 			}
@@ -774,7 +790,7 @@ class CandidateManager {
 			}
 		}
 		
-		const candidate = new Candidate(name, [solid, likely, leaning, tilting]);
+		const candidate = new Candidate(name, [safe, solid, likely, leaning, tilting]);
 		CandidateManager.candidates[name] = candidate;
 
 		verifyPaintIndex();
@@ -785,6 +801,8 @@ class CandidateManager {
 	
 	static saveCustomColors() {
 		const name = document.getElementById('custom-color-name').value;
+		const safe = document.getElementById("safecustom").value;
+		CookieManager.appendCookie(name + "safe", safe);
 		const solid = document.getElementById("solidcustom").value;
 		CookieManager.appendCookie(name + "solid", solid);	
 		const likely = document.getElementById("likelycustom").value;
@@ -797,52 +815,62 @@ class CandidateManager {
 	}
 
 	static setColors(palette) {
+		const safe = document.getElementById('safe');
 		const solid = document.getElementById('solid');
 		const likely = document.getElementById('likely');
 		const leaning =  document.getElementById('leaning');
 		const tilting = document.getElementById('tilting');
 
 		if(palette === 'red') {
-			solid.value = '#bf1d29';
+			safe.value = '#bf1d29';
+			solid.value = '#111111';
 			likely.value = '#ff5865';
 			leaning.value = '#ff8b98';
 			tilting.value ='#cf8980';
 		} else if(palette === 'blue') {
-			solid.value = '#1c408c';
+			safe.value = '#1c408c';
+			solid.value = '#222222';
 			likely.value = '#577ccc';
 			leaning.value = '#8aafff';
 			tilting.value = '#949bb3';
 		} else if(palette === 'green') {
-			solid.value = '#1c8c28';
+			safe.value = '#1c8c28';
+			solid.value = '#000000';
 			likely.value = '#50c85e';
 			leaning.value = '#8aff97';
 			tilting.value = '#7a997e';
 		} else if(palette === 'yellow') {
-			solid.value = '#e6b700';
+			safe.value = '#e6b700';
+			solid.value = '#000000';
 			likely.value = '#e8c84d';
 			leaning.value = '#ffe78a';
 			tilting.value = '#b8a252';
 		} else if(palette === 'blue-light') {
-			solid.value = '#5555ff';
+			safe.value = '#5555ff';
+			solid.value = '#000000';
 			likely.value = '#8080ff';
 			leaning.value = '#aaaaff';
 			tilting.value = '#d5d5ff';
 		} else if(palette === 'red-light') {
-			solid.value = '#ff5555';
+			safe.value = '#ff5555';
+			solid.value = '#000000';
 			likely.value = '#ff8080';
 			leaning.value = '#ffaaaa';
 			tilting.value = '#ffd5d5';
 		} else if(palette === 'blue-dark') {
-			solid.value = '#302e80';
+			safe.value = '#302e80';
+			solid.value = '#000000';
 			likely.value = '#444cc5';
 			leaning.value = '#817ffb';
 			tilting.value = '#cdd3f7';
 		} else if(palette === 'red-dark') {
-			solid.value = '#80302e';
+			safe.value = '#80302e';
+			solid.value = '#000000';
 			likely.value = '#cb4b40';
 			leaning.value = '#fb817f';
 			tilting.value = '#f5c8c4';
 		} else {
+			safe.value = CookieManager.cookies[palette + 'safe'];
 			solid.value = CookieManager.cookies[palette + 'solid'];
 			likely.value = CookieManager.cookies[palette + 'likely'];
 			leaning.value = CookieManager.cookies[palette + 'leaning'];
@@ -853,7 +881,7 @@ class CandidateManager {
 
 CandidateManager.candidates = [];
 CandidateManager.tossupColor = 2;
-CandidateManager.TOSSUP = new Candidate('Tossup', ['#000000', '#ffffff', '#696969', '#000000']);
+CandidateManager.TOSSUP = new Candidate('Tossup', ['#000000', '#696969', '#ffffff', '#696969', '#000000']);
 class ChartManager {
 	static initChart() {
 		ChartManager.chartOptions = {
@@ -933,7 +961,7 @@ class ChartManager {
 					}
 
 					if(key !== 'Tossup' && LegendManager.legendLeans) {
-						const amts = ['solid', 'likely', 'lean', 'tilt'];
+						const amts = ['safe', 'solid', 'likely', 'lean', 'tilt'];
 						for(let index = 0; index < amts.length; ++index) {
 							const legendColor = document.createElement('div');
 							legendColor.classList.add('legend-color');
@@ -1306,6 +1334,8 @@ class ChartManager {
 		ChartManager.chartData.datasets[2].backgroundColor = [];
 		ChartManager.chartData.datasets[3].data = [];
 		ChartManager.chartData.datasets[3].backgroundColor = [];
+		ChartManager.chartData.datasets[4].data = [];
+		ChartManager.chartData.datasets[4].backgroundColor = [];
 		
 		// each label is a candidate
 		for(var key in CandidateManager.candidates) {
@@ -1447,6 +1477,7 @@ class CookieManager {
 	static loadCookies() {
 		// preload all color cookies with black
 		for(var i = 1; i < 11; ++i) {
+			CookieManager.cookies['custom' + i + 'safe'] = '#000000';
 			CookieManager.cookies['custom' + i + 'solid'] = '#000000';
 			CookieManager.cookies['custom' + i + 'likely'] = '#000000';
 			CookieManager.cookies['custom' + i + 'leaning'] = '#000000';
@@ -1467,6 +1498,7 @@ class CookieManager {
 		for(var index = 1; index < 11; ++index) {
 			var c = document.getElementById('custom' + index + 'button');
 			c.style.background = 'linear-gradient(to right,' +
+				CookieManager.cookies['custom' + index + 'safe'] + ',' +
 				CookieManager.cookies['custom' + index + 'solid'] + ',' +
 				CookieManager.cookies['custom' + index + 'likely'] + ',' +
 				CookieManager.cookies['custom' + index + 'leaning'] + ',' +
@@ -2608,7 +2640,7 @@ class MapLoader {
 					continue;
 				}
 				let candidate = obj.candidates[candidateName];
-				CandidateManager.addCandidate(candidateName, candidate['solid'], candidate['likely'], candidate['lean'], candidate['tilt']);
+				CandidateManager.addCandidate(candidateName, candidate['safe'], candidate['solid'], candidate['likely'], candidate['lean'], candidate['tilt']);
 			}
 
 			for(let stateName in obj.states) {
@@ -2728,11 +2760,11 @@ class MapLoader {
 				}
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				'if(KeyboardManager.keyStates[70]){buttonClick(this, {setSolid: true});}');
+				'if(KeyboardManager.keyStates[70]){buttonClick(this, {setSafe: true});}');
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						buttonClick(this, {setSolid: true});
+						buttonClick(this, {setSafe: true});
 					}
 				});
 				buttons.push(htmlElement);
@@ -2742,11 +2774,11 @@ class MapLoader {
 				}
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				'if(KeyboardManager.keyStates[70]){landClick(this, {setSolid: true});}');
+				'if(KeyboardManager.keyStates[70]){landClick(this, {setSafe: true});}');
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						landClick(this, {setSolid: true});
+						landClick(this, {setSafe: true});
 					}
 				});
 				lands.push(htmlElement);
@@ -2758,11 +2790,11 @@ class MapLoader {
 				var stateIndex = states.length - 1;
 				/*
 				htmlElement.setAttribute('onmouseover', 
-				"if(KeyboardManager.keyStates[70]){stateClick(this, {setSolid: true});}");
+				"if(KeyboardManager.keyStates[70]){stateClick(this, {setSafe: true});}");
 				*/
 				htmlElement.addEventListener("mouseover", function() {
 					if(KeyboardManager.keyStates[70]) {
-						stateClick(this, {setSolid: true});
+						stateClick(this, {setSafe: true});
 					}
 				});
 			}
@@ -2902,13 +2934,13 @@ class PresetLoader {
 
 	// republicans vs democrats
 	static loadPresetClassic() {
+		var democrat = new Candidate('Democratic',
+			['#1c408c', '#222222', '#577ccc', '#8aafff', '#949bb3']);
 		var republican = new Candidate('Republican', 
-			['#bf1d29', '#ff5865', '#ff8b98', '#cf8980']);
-		var democrat = new Candidate('Democrat',
-			['#1c408c', '#577ccc', '#8aafff', '#949bb3']);
+			['#bf1d29', '#111111', '#ff5865', '#ff8b98', '#cf8980']);
 
+		CandidateManager.candidates['Democratic'] = democrat;
 		CandidateManager.candidates['Republican'] = republican;
-		CandidateManager.candidates['Democrat'] = democrat;
 	}
 
 	static loadPresetRepublicanPrimary() {
@@ -3998,7 +4030,7 @@ class State {
 	}
 
 	// only incrememnt though the colors of the specified candidate
-	// if the state isn't this candidates color, start at solid
+	// if the state isn't this candidates color, start at safe
 	incrementCandidateColor(candidate, options = {setDelegates: true}) {
 		if(this.disabled) {
 			return;
@@ -4246,12 +4278,14 @@ function updateBattleChart() {
 	var tossup = document.getElementById('tossupbar');
 
 	var topbar = document.getElementById('topbar');
+	var topbarSafe = document.getElementById('topbar-safe');
 	var topbarSolid = document.getElementById('topbar-solid');
 	var topbarLikely = document.getElementById('topbar-likely');
 	var topbarLean = document.getElementById('topbar-lean');
 	var topbarTilt = document.getElementById('topbar-tilt');
 
 	var bottombar = document.getElementById('bottombar');
+	var bottombarSafe = document.getElementById('bottombar-safe');
 	var bottombarSolid = document.getElementById('bottombar-solid');
 	var bottombarLikely = document.getElementById('bottombar-likely');
 	var bottombarLean = document.getElementById('bottombar-lean');
@@ -4282,53 +4316,64 @@ function updateBattleChart() {
 			topbar.style.flexBasis = '' + 
 				(candidate.voteCount / totalVotes) * 100 + '%';
 			if(ChartManager.chartLeans) {
-				topbarSolid.style.flexBasis = '' + 
+				topbarSafe.style.flexBasis = '' + 
 					(candidate.probVoteCounts[0] / candidate.voteCount) * 100 + '%';
-				topbarSolid.style.background = candidate.colors[0];
+				topbarSafe.style.background = candidate.colors[0];
+
+				topbarSolid.style.flexBasis = '' + 
+					(candidate.probVoteCounts[1] / candidate.voteCount) * 100 + '%';
+				topbarSolid.style.background = candidate.colors[1];
 
 				topbarLikely.style.flexBasis = '' + 
-					(candidate.probVoteCounts[1] / candidate.voteCount) * 100 + '%';
-				topbarLikely.style.background = candidate.colors[1];
+					(candidate.probVoteCounts[2] / candidate.voteCount) * 100 + '%';
+				topbarLikely.style.background = candidate.colors[2];
 
 				topbarLean.style.flexBasis = '' + 
-					(candidate.probVoteCounts[2] / candidate.voteCount) * 100 + '%';
-				topbarLean.style.background = candidate.colors[2];
+					(candidate.probVoteCounts[3] / candidate.voteCount) * 100 + '%';
+				topbarLean.style.background = candidate.colors[3];
 
 				topbarTilt.style.flexBasis = '' +
-					(candidate.probVoteCounts[3] / candidate.voteCount) * 100 + '%';
-				topbarTilt.style.background = candidate.colors[3];
+					(candidate.probVoteCounts[4] / candidate.voteCount) * 100 + '%';
+				topbarTilt.style.background = candidate.colors[4];
 				
 				if(ChartManager.chartLabels) {
-					topbarSolid.innerHTML = '<p>'+candidate.probVoteCounts[0]+'</p>';
-					topbarLikely.innerHTML = '<p>'+candidate.probVoteCounts[1]+'</p>';
-					topbarLean.innerHTML = '<p>'+candidate.probVoteCounts[2]+'</p>';
-					topbarTilt.innerHTML = '<p>' + candidate.probVoteCounts[3] + '</p>';
+					topbarSafe.innerHTML = '<p>'+candidate.probVoteCounts[0]+'</p>';
+					topbarSolid.innerHTML = '<p>'+candidate.probVoteCounts[1]+'</p>';
+					topbarLikely.innerHTML = '<p>'+candidate.probVoteCounts[2]+'</p>';
+					topbarLean.innerHTML = '<p>'+candidate.probVoteCounts[3]+'</p>';
+					topbarTilt.innerHTML = '<p>' + candidate.probVoteCounts[4] + '</p>';
 				} else {
+					topbarSafe.innerHTML = '<p></p>';
 					topbarSolid.innerHTML = '<p></p>';
 					topbarLikely.innerHTML = '<p></p>';
 					topbarLean.innerHTML = '<p></p>';
 					topbarTilt.innerHTML = '<p></p>';
 				}
 			} else {
-				topbarSolid.style.flexBasis = '100%'; 
-				topbarSolid.style.background = candidate.colors[0];
+				topbarSafe.style.flexBasis = '100%'; 
+				topbarSafe.style.background = candidate.colors[0];
+				topbarSolid.style.flexBasis = '0%'; 
+				topbarSolid.style.background = candidate.colors[1];
 				topbarLikely.style.flexBasis = '0%';
-				topbarLikely.style.background = candidate.colors[1];
+				topbarLikely.style.background = candidate.colors[2];
 				topbarLean.style.flexBasis = '0%'; 
-				topbarLean.style.background = candidate.colors[2];
+				topbarLean.style.background = candidate.colors[3];
 				topbarTilt.style.flexBasis = '0%';
-				topbarTilt.style.background = candidate.colors[3];
+				topbarTilt.style.background = candidate.colors[4];
 
 				if(ChartManager.chartLabels) {
-					topbarSolid.innerHTML = '<p>' + (
+					topbarSafe.innerHTML = '<p>' + (
 						candidate.probVoteCounts[0] 
 						+ candidate.probVoteCounts[1]
 						+ candidate.probVoteCounts[2]
-						+ candidate.probVoteCounts[3]) + '</p>';
+						+ candidate.probVoteCounts[3]
+						+ candidate.probVoteCounts[4]) + '</p>';
+					topbarSolid.innerHTML = '<p></p>';	
 					topbarLikely.innerHTML = '<p></p>';
 					topbarLean.innerHTML = '<p></p>';
 					topbarTilt.innerHTML = '<p></p>';
 				} else {
+					topbarSafe.innerHTML = '<p></p>';
 					topbarSolid.innerHTML = '<p></p>';
 					topbarLikely.innerHTML = '<p></p>';
 					topbarLean.innerHTML = '<p></p>';
@@ -4340,53 +4385,64 @@ function updateBattleChart() {
 			bottombar.style.flexBasis = '' + 
 				(candidate.voteCount / totalVotes) * 100 + '%';
 			if(ChartManager.chartLeans) {
-				bottombarSolid.style.flexBasis = '' + 
+				bottombarSafe.style.flexBasis = '' + 
 					(candidate.probVoteCounts[0] / candidate.voteCount) * 100 + '%';
-				bottombarSolid.style.background = candidate.colors[0];
+				bottombarSafe.style.background = candidate.colors[0];
+
+				bottombarSolid.style.flexBasis = '' + 
+					(candidate.probVoteCounts[1] / candidate.voteCount) * 100 + '%';
+				bottombarSolid.style.background = candidate.colors[1];
 
 				bottombarLikely.style.flexBasis = '' + 
-					(candidate.probVoteCounts[1] / candidate.voteCount) * 100 + '%';
-				bottombarLikely.style.background = candidate.colors[1];
+					(candidate.probVoteCounts[2] / candidate.voteCount) * 100 + '%';
+				bottombarLikely.style.background = candidate.colors[2];
 
 				bottombarLean.style.flexBasis = '' + 
-					(candidate.probVoteCounts[2] / candidate.voteCount) * 100 + '%';
-				bottombarLean.style.background = candidate.colors[2];
+					(candidate.probVoteCounts[3] / candidate.voteCount) * 100 + '%';
+				bottombarLean.style.background = candidate.colors[3];
 				
 				bottombarTilt.style.flexBasis = '' +
-					(candidate.probVoteCounts[3] / candidate.voteCount) * 100 + '%';
-				bottombarTilt.style.background = candidate.colors[3];
+					(candidate.probVoteCounts[4] / candidate.voteCount) * 100 + '%';
+				bottombarTilt.style.background = candidate.colors[4];
 
 				if(ChartManager.chartLabels) {
-					bottombarSolid.innerHTML = '<p>'+candidate.probVoteCounts[0]+'</p>';
-					bottombarLikely.innerHTML = '<p>'+candidate.probVoteCounts[1]+'</p>';
-					bottombarLean.innerHTML = '<p>'+candidate.probVoteCounts[2]+'</p>';
-					bottombarTilt.innerHTML = '<p>' + candidate.probVoteCounts[3] + '</p>';
+					bottombarSafe.innerHTML = '<p>'+candidate.probVoteCounts[0]+'</p>';
+					bottombarSolid.innerHTML = '<p>'+candidate.probVoteCounts[1]+'</p>';
+					bottombarLikely.innerHTML = '<p>'+candidate.probVoteCounts[2]+'</p>';
+					bottombarLean.innerHTML = '<p>'+candidate.probVoteCounts[3]+'</p>';
+					bottombarTilt.innerHTML = '<p>' + candidate.probVoteCounts[4] + '</p>';
 				} else {
+					bottombarSafe.innerHTML = '<p></p>';
 					bottombarSolid.innerHTML = '<p></p>';
 					bottombarLikely.innerHTML = '<p></p>';
 					bottombarLean.innerHTML = '<p></p>';
 					bottombarTilt.innerHTML = '<p></p>';
 				}
 			} else {	
-				bottombarSolid.style.flexBasis = '100%';
-				bottombarSolid.style.background = candidate.colors[0];
+				bottombarSafe.style.flexBasis = '100%';
+				bottombarSafe.style.background = candidate.colors[0];
+				bottombarSolid.style.flexBasis = '0%';
+				bottombarSolid.style.background = candidate.colors[1];
 				bottombarLikely.style.flexBasis = '0%';
-				bottombarLikely.style.background = candidate.colors[1];
+				bottombarLikely.style.background = candidate.colors[2];
 				bottombarLean.style.flexBasis = '0%'; 
-				bottombarLean.style.background = candidate.colors[2];
+				bottombarLean.style.background = candidate.colors[3];
 				bottombarTilt.style.flexBasis = '0%';
-				bottombarTilt.style.background = candidate.colors[3];
+				bottombarTilt.style.background = candidate.colors[4];
 
 				if(ChartManager.chartLabels) {
-					bottombarSolid.innerHTML = '<p>' + (
+					bottombarSafe.innerHTML = '<p>' + (
 						candidate.probVoteCounts[0] 
 						+ candidate.probVoteCounts[1]
 						+ candidate.probVoteCounts[2]
-						+ candidate.probVoteCounts[3]) + '</p>';
+						+ candidate.probVoteCounts[3]
+						+ candidate.probVoteCounts[4]) + '</p>';
+					bottombarSolid.innerHTML = '<p></p>';
 					bottombarLikely.innerHTML = '<p></p>';
 					bottombarLean.innerHTML = '<p></p>';
 					bottombarTilt.innerHTML = '<p></p>';
 				} else {
+					bottombarSafe.innerHTML = '<p></p>';
 					bottombarSolid.innerHTML = '<p></p>';
 					bottombarLikely.innerHTML = '<p></p>';
 					bottombarLean.innerHTML = '<p></p>';
@@ -4427,7 +4483,7 @@ function landClick(clickElement) {
 		return;
 	}
 
-	var setSolid = KeyboardManager.quickFill();
+	var setSafe = KeyboardManager.quickFill();
 
 	var id = clickElement.getAttribute('id');
 	var split = id.split('-');
@@ -4450,7 +4506,7 @@ function landClick(clickElement) {
 	if(mode === 'paint' || mode === 'fill') {
 		Simulator.view(AL);
 		// check if each district has the same candidate and color value
-		if(setSolid) {
+		if(setSafe) {
 			AL.setColor(paintIndex, 0);
 		} else {
 			AL.incrementCandidateColor(paintIndex);
@@ -4859,7 +4915,7 @@ function setCongressOnHover() {
 					element.innerHTML = districtData.Party;
 
 					if(KeyboardManager.keyStates[70]) {
-						stateClick(this, {setSolid: true});
+						stateClick(this, {setSafe: true});
 					}
 				}
 			})();
@@ -5009,14 +5065,16 @@ function displayCandidateEditMenu(candidate) {
 	candidateedit.style.display = 'flex';
 	var nameinput = document.getElementById('candidate-name');
 	nameinput.value = candidate;
+	var safeinput = document.getElementById('candidate-safe');
+	safeinput.value = CandidateManager.candidates[candidate].colors[0];
 	var solidinput = document.getElementById('candidate-solid');
-	solidinput.value = CandidateManager.candidates[candidate].colors[0];
+	solidinput.value = CandidateManager.candidates[candidate].colors[1];
 	var likelyinput = document.getElementById('candidate-likely');
-	likelyinput.value = CandidateManager.candidates[candidate].colors[1];
+	likelyinput.value = CandidateManager.candidates[candidate].colors[2];
 	var leaninput = document.getElementById('candidate-lean');
-	leaninput.value = CandidateManager.candidates[candidate].colors[2];
+	leaninput.value = CandidateManager.candidates[candidate].colors[3];
 	var tiltinput = document.getElementById('candidate-tilt');
-	tiltinput.value = CandidateManager.candidates[candidate].colors[3];
+	tiltinput.value = CandidateManager.candidates[candidate].colors[4];
 	var hiddeninput = document.getElementById('candidate-originalName');
 	var message = document.getElementById('candidateedit-message');
 	message.innerHTML = 'Edit ' + candidate;
@@ -5069,6 +5127,7 @@ function displayCustomColorEditor(type) {
 	customColorName.value = type;
 	var miscmenu = document.getElementById('customcoloreditor');
 	miscmenu.style.display = 'flex';
+	document.getElementById("safecustom").value = CookieManager.cookies[type + 'safe'];
 	document.getElementById("solidcustom").value = CookieManager.cookies[type + 'solid'];
 	document.getElementById("likelycustom").value = CookieManager.cookies[type + 'likely'];
 	document.getElementById("leaningcustom").value = CookieManager.cookies[type + 'leaning'];
@@ -5887,8 +5946,8 @@ class Simulator {
 		var presets = document.getElementById("sidebar-presets-select-simulator");
 		presets.value = "cook";	
 
-		CandidateManager.addCandidate("Republican", "#bf1d29", "#ff5865", "#ff8b98", "#cf8980");
-		CandidateManager.addCandidate("Democrat", "#1c408c", "#577ccc", "#8aafff", "#949bb3");
+		CandidateManager.addCandidate("Republican", "#bf1d29", "#111111", "#ff5865", "#ff8b98", "#cf8980");
+		CandidateManager.addCandidate("Democrat", "#1c408c", "#222222", "#577ccc", "#8aafff", "#949bb3");
 		countVotes();
 		ChartManager.updateChart();
 	
@@ -6201,10 +6260,11 @@ class SaveMap {
 			}
 			var candidate = CandidateManager.candidates[key];
 			data['candidates'][candidate.name] = {};
-			data['candidates'][candidate.name]['solid'] = candidate.colors[0];
-			data['candidates'][candidate.name]['likely'] = candidate.colors[1];
-			data['candidates'][candidate.name]['lean'] = candidate.colors[2];
-			data['candidates'][candidate.name]['tilt'] = candidate.colors[3];
+			data['candidates'][candidate.name]['safe'] = candidate.colors[0];
+			data['candidates'][candidate.name]['solid'] = candidate.colors[1];
+			data['candidates'][candidate.name]['likely'] = candidate.colors[2];
+			data['candidates'][candidate.name]['lean'] = candidate.colors[3];
+			data['candidates'][candidate.name]['tilt'] = candidate.colors[4];
 		}
 
 		for(var stateIndex = 0; stateIndex < states.length; ++stateIndex) {
@@ -6267,10 +6327,11 @@ class SaveMap {
 			}
 			var candidate = CandidateManager.candidates[key];
 			data['candidates'][candidate.name] = {};
-			data['candidates'][candidate.name]['solid'] = candidate.colors[0];
-			data['candidates'][candidate.name]['likely'] = candidate.colors[1];
-			data['candidates'][candidate.name]['lean'] = candidate.colors[2];
-			data['candidates'][candidate.name]['tilt'] = candidate.colors[3];
+			data['candidates'][candidate.name]['safe'] = candidate.colors[0];
+			data['candidates'][candidate.name]['solid'] = candidate.colors[1];
+			data['candidates'][candidate.name]['likely'] = candidate.colors[2];
+			data['candidates'][candidate.name]['lean'] = candidate.colors[3];
+			data['candidates'][candidate.name]['tilt'] = candidate.colors[4];
 		}
 
 		for(var stateIndex = 0; stateIndex < states.length; ++stateIndex) {

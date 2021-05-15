@@ -18,6 +18,7 @@
 <a class="selectmenu-button" onclick='displayMenu("customcolormenu")'>
 	<div class="selectmenu-button-text">Custom Colors</div>
 </a>
+<div class="selectmenu-section">Safe <input id="safe" type="color"></div>
 <div class="selectmenu-section">Solid <input id="solid" type="color"></div>
 <div class="selectmenu-section">Likely <input id="likely" type="color"></div>
 <div class="selectmenu-section">Leaning <input id="leaning" type="color"></div>

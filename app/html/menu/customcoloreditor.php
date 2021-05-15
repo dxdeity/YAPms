@@ -9,6 +9,7 @@
 </div>
 <div class="selectmenu-content">
 <input id="custom-color-name" type="hidden">
+<div class="selectmenu-section">Safe <input id="safecustom" type="color"></div>
 <div class="selectmenu-section">Solid <input id="solidcustom" type="color"></div>
 <div class="selectmenu-section">Likely <input id="likelycustom" type="color"></div>
 <div class="selectmenu-section">Leaning <input id="leaningcustom" type="color"></div>
