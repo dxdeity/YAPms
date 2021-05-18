@@ -628,7 +628,7 @@ class Candidate {
 		this.name = name;
 		this.colors = colors;
 		this.voteCount = 0;
-		this.probVoteCounts = [0,0,0,0];
+		this.probVoteCounts = [0,0,0,0,0];
 
 		if(colors[0] === colors[1] &&
 			colors[0] === colors[2] &&
@@ -757,7 +757,7 @@ class CandidateManager {
 		if(solid === undefined) {
 			const solidHTML = document.getElementById('solid');
 			if(solidHTML !== null) {
-				solid = likelyHTML.value;
+				solid = solidHTML.value;
 			} else {
 				solid = '#000000';
 			}
