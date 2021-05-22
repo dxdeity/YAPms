@@ -1,6 +1,8 @@
 # YAPms
 Interactive Political Maps
 
+If you want to see the experimental changes that arent 100% complete, check out the experimental branch 
+
 The following readme should help you get started with contributing to the YAPms project
 
 ## Running Local Linux
