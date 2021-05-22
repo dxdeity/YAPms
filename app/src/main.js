@@ -10,7 +10,7 @@ let maxColorValue = 2;
 
 let mode = 'paint';
 
-let maxColorValues = 4;
+let maxColorValues = 5;
 
 let mapOptions = {}
 
