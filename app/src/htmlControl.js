@@ -283,7 +283,7 @@ function contrastPalette() {
 
 	setClickButtonColor('#fafafa');
 	setClickButtonTextColor('#000000');
-	setMenuColor('#222222');
+	setMenuColor('#0645b4');
 
 	setSideBarColor('#f8f9fa');
 	setSideBarTextStyle('#000000');

@@ -198,19 +198,19 @@ class CandidateManager {
 
 		if(palette === 'red') {
 			safe.value = '#bf1d29';
-			solid.value = '#111111';
+			solid.value = '#d40000';
 			likely.value = '#ff5865';
 			leaning.value = '#ff8b98';
 			tilting.value ='#cf8980';
 		} else if(palette === 'blue') {
 			safe.value = '#1c408c';
-			solid.value = '#222222';
+			solid.value = '#0645b4';
 			likely.value = '#577ccc';
 			leaning.value = '#8aafff';
 			tilting.value = '#949bb3';
 		} else if(palette === 'green') {
 			safe.value = '#1c8c28';
-			solid.value = '#000000';
+			solid.value = '#32aa46';
 			likely.value = '#50c85e';
 			leaning.value = '#8aff97';
 			tilting.value = '#7a997e';

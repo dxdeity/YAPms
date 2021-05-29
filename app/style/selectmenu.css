@@ -131,7 +131,7 @@ h2.selectmenu-toptext {
 .selectmenu-red {
 	font-weight: bold;
 	color: white;
-	background: linear-gradient(to right, #bf1d29, #111111, #ff5865, #ff8b98, #cf8980);
+	background: linear-gradient(to right, #bf1d29, #d40000, #ff5865, #ff8b98, #cf8980);
 }
 
 .selectmenu-red-light {
@@ -149,7 +149,7 @@ h2.selectmenu-toptext {
 .selectmenu-blue {
 	font-weight: bold;
 	color: white;
-	background: linear-gradient(to right, #1c408c, #222222, #577ccc, #8aafff, #949bb3);
+	background: linear-gradient(to right, #1c408c, #0645b4, #577ccc, #8aafff, #949bb3);
 }
 
 .selectmenu-blue-light {
