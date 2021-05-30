@@ -3,55 +3,38 @@ class Account {
 		const formData = new FormData();
 		const email = document.getElementById('email-input').value;
 		formData.append('email', email);
-		/*
-		fetch("https://yapms.org/auth.register.php")
+
+		fetch('https://yapms.org/auth/register.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
 		.then(response => response.text())
 		.then(data => {
-
+			console.log('Register: ' + data);
+			const arr = data.split(' ');
+			const registerInfo = document.getElementById('register-info');
+			closeAllPopups();
+			if(arr[0] === 'good') {
+				displayNotification('Account Registered',
+					'Please check your email, and click the verification link. (check your spam)');	
+			} else if(arr[1] === 'inuse') {
+				displayNotification('Register Error',
+					'Account Already Registered');	
+			} else if(arr[1] === 'inactive') {
+				displayNotification('Register Error',
+					'Verification Email Already Sent (check your spam)');	
+			} else if(arr[1] === 'resent') {
+				displayNotification('Account Registered',
+					'Please check your email, and click the verification link. (check your spam)');	
+			} else if(arr[1] === 'invalid_email') {
+				displayNotification('Register Error',
+					email + ' is not a valid email');	
+			}
 		}).catch(error => {
-			
-		});
-		*/
-		$.ajax({
-			url: "https://yapms.org/auth/register.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Register: ' + data);
-				//alert(data);
-				const arr = data.split(' ');
-				const registerInfo = document.getElementById('register-info');
-				closeAllPopups();
-				if(arr[0] === 'good') {
-					displayNotification('Account Registered',
-						'Please check your email, and click the verification link. (check your spam)');	
-				} else if(arr[1] === 'inuse') {
-					displayNotification('Register Error',
-						'Account Already Registered');	
-				} else if(arr[1] === 'inactive') {
-					displayNotification('Register Error',
-						'Verification Email Already Sent (check your spam)');	
-				} else if(arr[1] === 'resent') {
-					displayNotification('Account Registered',
-						'Please check your email, and click the verification link. (check your spam)');	
-				} else if(arr[1] === 'invalid_email') {
-					displayNotification('Register Error',
-						email + ' is not a valid email');	
-				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-				var registerInfo = document.getElementById('register-info');
-				registerInfo.innerHTML = 'Connection Error';	
-			}	
+			console.log(error);	
+			const registerInfo = document.getElementById('register-info');
+			registerInfo.innerHTML = 'Connection Error';	
 		});
 	}
 
@@ -61,122 +44,99 @@ class Account {
 		const pass = document.getElementById('password-login').value;
 		formData.append('email', email);
 		formData.append('password', pass);
-		$.ajax({
-			url: "https://yapms.org/auth/login.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Login: ' + data);
-				var arr = data.split(' ');
-				Account.verifyState();
-				document.getElementById('password-login').value = "";
-				var loginInfo = document.getElementById('login-info');
-				if(arr[0] === 'good') {
-					loginInfo.innerHTML = 'Please enter your credentials';
-					closeAllPopups();
-				} else if(arr[0] === 'bad') {
-					if(arr[1] === 'account_innactive') {
-						loginInfo.innerHTML = 'Inactive Account';
-					} else if(arr[1] === 'incorrect_login') {
-						loginInfo.innerHTML = 'Incorrect Login';
-					}
+
+		fetch('https://yapms.org/auth/login.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Login: ' + data);
+			var arr = data.split(' ');
+			Account.verifyState();
+			document.getElementById('password-login').value = "";
+			var loginInfo = document.getElementById('login-info');
+			if(arr[0] === 'good') {
+				loginInfo.innerHTML = 'Please enter your credentials';
+				closeAllPopups();
+			} else if(arr[0] === 'bad') {
+				if(arr[1] === 'account_innactive') {
+					loginInfo.innerHTML = 'Inactive Account';
+				} else if(arr[1] === 'incorrect_login') {
+					loginInfo.innerHTML = 'Incorrect Login';
 				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-				var loginInfo = document.getElementById('login-info');
-				loginInfo.innerHTML = 'Connection Error';
-			}	
+			}
+		}).catch(error => {
+			console.log(error);
+			const loginInfo = document.getElementById('login-info');
+			loginInfo.innerHTML = 'Connection Error';
 		});
 	}
 
 	static verifyState() {
 		const formData = new FormData();
 		formData.append('email', Account.email);
-		$.ajax({
-			url: "https://yapms.org/auth/verify_login.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Verify Login: ' + data);
-				const arr = data.split(' ');
-				Account.isLoggedIn = (arr[0] === 'good');
-				if(Account.isLoggedIn) {
-					Account.email = arr[1];
-					Account.id = arr[2];
-				} else {
-					Account.id = null;
-					Account.email = null;	
-				}
-				Account.updateHTML();
-			},
-			error: function(a, b, c) {
-				console.log("Account: Could not login");
-			}	
+		
+		fetch('https://yapms.org/auth/verify_login.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Verify Login: ' + data);
+			const arr = data.split(' ');
+			Account.isLoggedIn = (arr[0] === 'good');
+			if(Account.isLoggedIn) {
+				Account.email = arr[1];
+				Account.id = arr[2];
+			} else {
+				Account.id = null;
+				Account.email = null;	
+			}
+			Account.updateHTML();
+		}).catch(error => {
+			console.log(error);
+			console.log("Account: Could not login");
 		});
 	}
 
 	static logout() {
 		closeAllPopups();
-		$.ajax({
-			url: "https://yapms.org/auth/logout.php",
-			type: "POST",
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Logout: ' + data);
-				Account.verifyState();
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-			}	
+		
+		fetch('https://yapms.org/auth/logout.php', {
+			method: 'POST',
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Logout: ' + data);
+			Account.verifyState();
+		})
+		.catch(error => {
+			console.log(error);
 		});
 	}
 
 	static unlink(mapName) {
 		var formData = new FormData();
 		formData.append("mapName", mapName);
-		$.ajax({
-			url: "https://yapms.org/users/.tools/unlink.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				gtag('event', currentCache, {
-					'event_category': 'Account',
-					'event_label': 'Map Deleted From Account'
-				});
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-			}	
+
+		fetch('https://yapms.org/users/.tools/unlink.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			gtag('event', currentCache, {
+				'event_category': 'Account',
+				'event_label': 'Map Deleted From Account'
+			});
+		})
+		.catch(error => {
+			console.log(error);
 		});
 	}
 
@@ -260,134 +220,123 @@ class Account {
 		
 		formData.append("data", JSON.stringify(data));
 
-		$.ajax({
-			url: "https://yapms.org/users/.tools/upload.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				var arr = data.split(' ');
-				console.log(arr);
-				if(arr[0] === "bad") {
-					error.style.display = 'inline';
-					if(arr[1] === "no_map_name") {
-						error.innerHTML = "Enter Map Name";
-					} else if(arr[1] === "file_limit") {
-						error.innerHTML = "File Limit Reached";	
-					} else {
-						error.innerHTML = "Upload Error";	
-					}
+		fetch('https://yapms.org/users/.tools/upload.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			const arr = data.split(' ');
+			if(arr[0] === "bad") {
+				error.style.display = 'inline';
+				if(arr[1] === "no_map_name") {
+					error.innerHTML = "Enter Map Name";
+				} else if(arr[1] === "file_limit") {
+					error.innerHTML = "File Limit Reached";	
 				} else {
-					var base64name = arr[1];
-					Account.addMapBox(base64name, true);
-					gtag('event', currentCache, {
-						'event_category': 'Account',
-						'event_label': 'Map Saved To Account'
-					});
+					error.innerHTML = "Upload Error";	
 				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
+			} else {
+				const base64name = arr[1];
+				Account.addMapBox(base64name, true);
+				gtag('event', currentCache, {
+					'event_category': 'Account',
+					'event_label': 'Map Saved To Account'
+				});
 			}
+		})
+		.catch(error => {
+			console.log(error);
 		});
 	}
 
 	static changePassword() {
-		var formData = new FormData();
-		var current = document.getElementById('password-reset-1').value;
-		var newPass = document.getElementById('password-reset-2').value;
-		var verifyPass = document.getElementById('password-reset-3').value;
+		const formData = new FormData();
+		const current = document.getElementById('password-reset-1').value;
+		const newPass = document.getElementById('password-reset-2').value;
+		const verifyPass = document.getElementById('password-reset-3').value;
 		formData.append('current', current);
 		formData.append('new', newPass);
 		formData.append('verify', verifyPass);
-		$.ajax({
-			url: "https://yapms.org/auth/change_password.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Change Password: ' + data);
-				var arr = data.split(' ');
-				var passwordChangeInfo = document.getElementById('passwordchange-info');
-				if(arr[0] === 'good') {
-					closeAllPopups();
-					displayNotification('Password Change',
-						'Your password has been changed');
-					passwordChangeInfo.innerHTML = 'Please enter current and new password';
-					document.getElementById('password-reset-1').value = "";
-					document.getElementById('password-reset-2').value = "";
-					document.getElementById('password-reset-3').value = "";
-				} else if(arr[0] === 'bad') {
-					if(arr[1] === 'verify_incorrect') {
+
+		fetch('https://yapms.org/auth/change_password.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Change Password: ' + data);
+			const arr = data.split(' ');
+			const passwordChangeInfo = document.getElementById('passwordchange-info');
+			if(arr[0] === 'good') {
+				closeAllPopups();
+				displayNotification('Password Change',
+					'Your password has been changed');
+				passwordChangeInfo.innerHTML = 'Please enter current and new password';
+				document.getElementById('password-reset-1').value = '';
+				document.getElementById('password-reset-2').value = '';
+				document.getElementById('password-reset-3').value = '';
+			} else if(arr[0] === 'bad') {
+				switch(arr[1]) {
+					case 'verify_incorrect':
 						passwordChangeInfo.innerHTML = 'Passwords do not match';
-					} else if(arr[1] === 'incorrect_pass') {
+						break;
+					case 'incorrect_pass':
 						passwordChangeInfo.innerHTML = 'Current password incorrect';
-					} else if(arr[1] === 'no_post') {
+						break;
+					case 'no_post':
 						passwordChangeInfo.innerHTML = 'Missing information';
-					}
+						break;
 				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-			}	
+			}
+		})
+		.catch(error => {
+			console.log(error);
 		});
+
 	}
 
 	static forgotPassword() {
-		var formData = new FormData();
-		var email = document.getElementById('email-forgot-input').value;
+		const formData = new FormData();
+		const email = document.getElementById('email-forgot-input').value;
 		formData.append('email', email);
-		$.ajax({
-			url: "https://yapms.org/auth/forgot_password.php",
-			type: "POST",
-			data: formData,
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				console.log('Forgot Password: ' + data);
-				var arr = data.split(' ');
-				closeAllPopups();
-				if(arr[0] === 'good') {
-					if(arr[1] === 'reset_sent') {
-						displayNotification('Password Reset',
-							'Password reset email sent. (check your spam)');	
-					}
-				} else if(arr[0] === 'bad') {
-					if(arr[1] === 'innactive_account') {
+		
+		fetch('https://yapms.org/auth/forgot_password.php', {
+			method: 'POST',
+			body: formData,
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			console.log('Forgot Password: ' + data);
+			var arr = data.split(' ');
+			closeAllPopups();
+			if(arr[0] === 'good') {
+				if(arr[1] === 'reset_sent') {
+					displayNotification('Password Reset',
+						'Password reset email sent. (check your spam)');	
+				}
+			} else if(arr[0] === 'bad') {
+				switch(arr[1]) {
+					case 'innactive_account':
 						displayNotification('Password Reset Error',
 							email + ' is not active. Please register or verify.');	
-					} else if(arr[1] === 'recent_verification') {
+						break;
+					case 'recent_verification':
 						displayNotification('Password Reset Error',
 							'Password was recently reset, please wait.');	
-					} else if(arr[1] === 'please_register') {
+						break;
+					case 'please_register':
 						displayNotification('Password Reset Error',
 							email + ' is not registered. Please register.');	
-					}
+						break;
 				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
-			}	
+			}
+		})
+		.catch(error => {
+			console.log(error);
 		});
 	}
 
@@ -527,72 +476,39 @@ class Account {
 			page.style.display = "inline-flex";
 		}
 
-		html2canvas(document.getElementById("application"), {logging: false, onclone: function(clone) {
-			// remove the custom fonts from the clone
-			var svgtext = clone.getElementById('text');
-			if(svgtext) {
-				svgtext.style.fontFamily = 'arial';
-				svgtext.style.fontSize = '15px';
-			}
-			var svg = clone.getElementById('svgdata');
-			var mapdiv = clone.getElementById('map-div');
-			if(svg && mapdiv) {
-				svg.setAttribute('width', mapdiv.offsetWidth);
-				svg.setAttribute('height', mapdiv.offsetHeight);
-			}
-			var notification = clone.getElementById('legend-tooltip');
-			if(notification) {
-				notification.style.display = 'none';
-			}
-			var editButtons = clone.getElementsByClassName('legend-delete');
-			for(var index = 0, length = editButtons.length; index < length; ++index) {
-				var element = editButtons[index];
-				if(element) {
-					element.style.display = 'none';
-				}
-			}
-			var addCandidate = clone.getElementById('legend-addcandidate-button');
-			if(addCandidate) {
-				addCandidate.style.display = 'none';
-			}
-		}}).then(function(canvas) {
-			canvas.style.width = 0;
-			canvas.style.height = 0;	
-			canvas.style.display = 'none';
-			const img = canvas.toDataURL('image/png');
-			const i = document.getElementById('mysaves-current-mappreview');
-			i.src = img;
-			i.style.width = '40vw';
-			i.style.height = 'auto';
-			const current = document.getElementById("mysaves-current-map");
-			if(current) {
-				current.style.display = "inline-flex";
-			}
+		const application = document.getElementById('application');
+		domtoimage.toPng(application, {
+			width: application.offsetWidth,
+			height: application.offsetHeight
+		})
+		.then(function(data) {
+			const image = document.getElementById('mysaves-current-mappreview');
+			image.src = data;
+			image.style.width = '40vw';
+			image.style.height = 'auto';
+			const current = document.getElementById('mysaves-current-map');
+			current.style.display = "inline-flex";
+		})
+		.catch(function(error) {
+			console.log('dom-to-image: ', error);
 		});
-		
-		$.ajax({
-			url: "https://yapms.org/users/.tools/get_maps.php",
-			type: "POST",
-			processData: false,
-			contentType: false,
-			xhrFields: {
-				withCredentials: true
-			},
-			crossDomain: true,
-			success: function(data) {
-				const arr = data.split(' ');
-				for(let fileIndex = 0; fileIndex < arr.length; ++fileIndex) {
-					/* GET BASE64 DATA */
-					const fileName = arr[fileIndex].split('/');
-					const name = fileName[2].split('.')[0];
-					Account.addMapBox(name, false);
-				}
-			},
-			error: function(a, b, c) {
-				console.log(a);
-				console.log(b);
-				console.log(c);
+
+		fetch('https://yapms.org/users/.tools/get_maps.php', {
+			method: 'POST',
+			credentials: 'include'
+		})
+		.then(response => response.text())
+		.then(data => {
+			data = data.split(' ');
+			for(let fileIndex = 0; fileIndex < data.length; ++fileIndex) {
+				/* GET BASE64 DATA */
+				const fileName = data[fileIndex].split('/');
+				const name = fileName[2].split('.')[0];
+				Account.addMapBox(name, false);
 			}
+		})
+		.catch(error => {
+			console.log(error);
 		});
 	}
 
@@ -619,7 +535,7 @@ Account.email = null;
 Account.id = null;
 Account.isLoggedIn = false;
 
-$("#login-form").submit(function(event) {
-	event.preventDefault();
+document.getElementById('login-form').onsubmit = function(e) {
+	e.preventDefault();
 	Account.login();
-});
+}

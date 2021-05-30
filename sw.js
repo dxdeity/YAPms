@@ -1,15 +1,14 @@
-const indexCache = 'i2.51.7';
-const staticCache = 's2.51.7';
+const indexCache = 'i3.2.1';
+const staticCache = 's3.2.1';
 
 const _indexCache = [
 	'./',
 	'./index.php',
 	'./offline.php',
 
-	'./src/style/mobile-navigation.css',
-	'./src/style/desktop-navigation.css',
+	'./src/style/navigation.css',
 	'./src/style/style.css',
-	'./src/script/mobile-navigation.js',
+	'./src/script/navigation.js',
 	'./src/script/bookmark.js',
 	'./src/script/cookies.js',
 	
@@ -27,25 +26,16 @@ const _indexCache = [
 
 	'./app/?t=USA_current_house',
 	'./app/?t=USA_current_senate',
-	'./app/?t=USA_2016_presidential_county',
-	'./app/?t=USA_2020_presidential',
-	'./app/?t=USA_2020_cook',
-	'./app/?t=USA_2020_inside',
-	'./app/?t=USA_2020_sabatos',
-	'./app/?t=USA_2020_senate',
+	'./app/?t=USA_2024_presidential',
 	'./app/?t=USA_2022_senate',
-	'./app/?t=USA_2020_governors',
-	'./app/?t=USA_2020_house',
-	'./app/?t=USA_2020_democratic_primary',
-	'./app/?t=USA_2020_republican_primary',
+	'./app/?t=USA_2022_governors',
+	'./app/?t=USA_2022_house',
 	'./app/?t=USA_county',
 	'./app/?t=USA_governors',
 	'./app/?t=USA_senate',
 	'./app/?t=USA_takeall',
 	'./app/?t=USA_proportional',
 	'./app/?t=USA_split_maine',
-	'./app/?t=USA_2024_projection',
-	'./app/?t=USA_2020_house_cook',
 
 	'./app/?t=Argentina_chamber_of_deputies',
 	'./app/?t=Australia_states',
@@ -53,12 +43,6 @@ const _indexCache = [
 	'./app/?t=Canada_provinces',
 	'./app/?t=Canada_house_of_commons',
 	'./app/?t=Canada_2019_house_of_commons',
-	'./app/?t=Germany_states',
-	'./app/?t=Germany_bundestag',
-	'./app/?t=India_2019_lok_sabha',
-	'./app/?t=Ireland_dail_eireann',
-	'./app/?t=Switzerland_council_of_states',
-	'./app/?t=Switzerland_national_council',
 	'./app/?t=UnitedKingdom_house_of_commons',
 	'./app/?t=UnitedKingdom_current_parliament'
 ];
@@ -80,9 +64,6 @@ const _staticCache = [
 	'./app/res/aus/australia.svg',
 	'./app/res/can/canada_states.svg',
 	'./app/res/can/canada_constituencies.svg',
-	'./app/res/deu/germany.svg',
-	'./app/res/deu/germany_constituencies.svg',
-	'./app/res/irl/ireland_constituencies_2020.svg',
 	'./app/res/ukd/unitedkingdom.svg',
 
 	'./app/res/images/halloween.jpg',
@@ -93,18 +74,7 @@ const _staticCache = [
 	'./app/res/presets/usa/USA_2016_presidential_county',
 	'./app/res/presets/usa/USA_2016_republican_primary',
 	'./app/res/presets/usa/USA_2016_democratic_primary',
-
-	'./app/res/presets/usa/USA_2024_projection',
-	'./app/res/presets/usa/USA_trump_impeachment_support',
-
-	'./app/res/presets/usa/USA_2020_cook',
-	'./app/res/presets/usa/USA_2020_inside',
-	'./app/res/presets/usa/USA_2020_sabatos',
 	
-	'./app/res/presets/can/Canada_2019_house_of_commons',
-	'./app/res/presets/ind/India_2019_lok_sabha',
-	'./app/res/presets/ukd/UnitedKingdom_current_parliament',
-
 	'./app/res/flags/arg.svg',
 	'./app/res/flags/aus.svg',
 	'./app/res/flags/bra.svg',
@@ -134,16 +104,13 @@ const _staticCache = [
 	'./app/data/senatorial_2020',
 	'./app/data/senatorial_2022',
 	'./app/data/senatorial_current',
-	
-	'./app/res/fonts/roboto/roboto-v20-latin-regular.woff',
 
-	'./app/res/fontawesome/js/all.min.js',
-	'https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js',
-	'https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js',
+	'https://fonts.googleapis.com/css?family=Roboto&display=swap',
+	'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/js/all.min.js',
+	'https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/dist/dom-to-image.min.js',
+	'https://cdn.jsdelivr.net/npm/panzoom@9.4.2/dist/panzoom.min.js',
 	'https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js',
 	'https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.min.js',
-	'https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js',
-	'https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js',
 
 	'./manifest.json'
 ];

@@ -1,4 +1,4 @@
-const currentCache = 'v2.51.7';
+const currentCache = 'v3.2.1';
 
 let states = [];
 let lands = [];
@@ -52,57 +52,28 @@ function share_afterCenter() {
 		}, 3000);
 	}
 
-	html2canvas(document.getElementById('application'), {
-		logging: false, onclone: function(clone) {
-		// remove the custom fonts from the clone
-		const svgtext = clone.getElementById('text');
-		if(svgtext) {
-			svgtext.style.fontFamily = 'arial';
-			svgtext.style.fontSize = '15px';
+	const application = document.getElementById('application');
+	domtoimage.toPng(application, {
+		width: application.offsetWidth,
+		height: application.offsetHeight
+	})
+	.then(function(data) {
+		const image = document.getElementById('screenshotimg');
+		image.src = data;
+		image.style.width = '40vw';
+		image.style.height = 'auto';
+		image.style.display = '';
+		const loadingAnimation = document.getElementById('loading-animation');
+		loadingAnimation.style.display = 'none';
+		if(grecaptcha) {
+			grecaptcha.execute('6LeDYbEUAAAAANfuJ4FxWVjoxPgDPsFGsdTLr1Jo', {action: 'share'})
+			.then(function(token) {
+				SaveMap.upload(data, token);
+			});
 		}
-
-		const svg = clone.getElementById("svgdata");
-		const mapdiv = clone.getElementById('map-div');
-		if(svg && mapdiv) {
-			const width = mapdiv.offsetWidth + (mapdiv.offsetWidth * 0);
-			const height = mapdiv.offsetHeight + (mapdiv.offsetHeight * 0);
-			svg.setAttribute('width', width);
-			svg.setAttribute('height', height);
-		}
-
-		const notification = clone.getElementById('legend-tooltip');
-		if(notification) {
-			notification.style.display = 'none';
-		}
-
-		const editButtons = clone.getElementsByClassName('legend-delete');
-		for(let index = 0, length = editButtons.length; index < length; ++index) {
-			const element = editButtons[index];
-			if(element) {
-				element.style.display = 'none';
-			}
-		}
-
-		const addCandidate = clone.getElementById('legend-addcandidate-button');
-		if(addCandidate) {
-			addCandidate.style.display = 'none';
-		}
-	}}).then(function(canvas) {
-		notification.appendChild(canvas);
-		canvas.style.width = 0;
-		canvas.style.height = 0;	
-		canvas.style.display = 'none';
-		const img = canvas.toDataURL('image/png');
-		notification.removeChild(canvas);
-		const i = document.getElementById('screenshotimg');
-		i.src = img;
-		i.style.width = '40vw';
-		i.style.height = 'auto';
-		if(grecaptcha)
-		grecaptcha.execute('6LeDYbEUAAAAANfuJ4FxWVjoxPgDPsFGsdTLr1Jo', {action: 'share'})
-		.then(function(token) {
-			SaveMap.upload(img, token);
-		});
+	})
+	.catch(function(error) {
+		console.log('dom-to-image: ', error);
 	});
 }
 
@@ -335,6 +306,8 @@ function updateMobile() {
 }
 
 function start() {
+	Account.verifyState();
+
 	CookieManager.loadCookies();
 	CookieManager.askConsent();
 
